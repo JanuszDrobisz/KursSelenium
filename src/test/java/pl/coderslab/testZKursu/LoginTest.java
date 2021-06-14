@@ -1,4 +1,4 @@
-package pl.coderslab.projektKoncowy;
+package pl.coderslab.testZKursu;
 
 import org.junit.After;
 import org.junit.Assert;

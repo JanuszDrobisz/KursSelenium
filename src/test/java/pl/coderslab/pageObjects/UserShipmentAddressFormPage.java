@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.Select;
 
 public class UserShipmentAddressFormPage {
     private WebDriver driver;
@@ -14,7 +15,7 @@ public class UserShipmentAddressFormPage {
     @FindBy(name = "firstname")
     private WebElement firstNameInput;
 
-    @FindBy(xpath = "//*[@id=\"content\"]/div/div/form/section/div[3]/div[1]/input")
+    @FindBy(name = "lastname")
     private WebElement lastNameInput;
 
     @FindBy(name = "address1")
@@ -51,9 +52,9 @@ public class UserShipmentAddressFormPage {
     }
 
     public void setLastName(String lastName) {
-        firstNameInput.click();
-        firstNameInput.clear();
-        firstNameInput.sendKeys(lastName);
+        lastNameInput.click();
+        lastNameInput.clear();
+        lastNameInput.sendKeys(lastName);
     }
 
     public void setAddress(String address) {
@@ -73,7 +74,11 @@ public class UserShipmentAddressFormPage {
     public void setPhone(String phone) {
         phoneInput.sendKeys(phone);
     }
-    public void saveAddress(){
+    public void setCountry(String country) {
+        Select selectCountry = new Select(countryDropDawn);
+        selectCountry.selectByVisibleText(country);
+    }
+    public void clickSaveButton(){
         saveButton.click();
     }
 }

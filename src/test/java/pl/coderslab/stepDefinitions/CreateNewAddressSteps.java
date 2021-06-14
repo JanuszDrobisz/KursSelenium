@@ -14,6 +14,10 @@ import pl.coderslab.pageObjects.UserShipmentAddressesPage;
 
 public class CreateNewAddressSteps {
     WebDriver driver;
+    String listOfInputtedData;
+    UserShipmentAddressFormPage userShipmentNewAddressFormPage;
+    UserShipmentAddressesPage userShipmentAddressesPage;
+
 
     @Given("^User is logged in to CodersLab shop and have created first address$")
     public void userIsLoggedInToCodersLabShopAndHaveCreatedFirstAddress() {
@@ -34,13 +38,13 @@ public class CreateNewAddressSteps {
 
     @And("^User click on the create new address link$")
     public void userClickOnTheLink() {
-        UserShipmentAddressesPage userShipmentAddressesPage = new UserShipmentAddressesPage(driver);
+        userShipmentAddressesPage = new UserShipmentAddressesPage(driver);
         userShipmentAddressesPage.setCreateNewAddress();
     }
 
-    @And("^User enter the (.*), (.*), (.*), (.*), (.*), (.*), (.*) data$")
-    public void userEnterTheAliasFirstNameLastNameAddressCityZipPhoneData(String alias, String firstName, String lastName, String address, String city, String zip, String phone) {
-       UserShipmentAddressFormPage userShipmentNewAddressFormPage = new UserShipmentAddressFormPage(driver);
+    @And("^User enter the (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*), data$")
+    public void userEnterTheAliasFirstNameLastNameAddressCityZipPhoneData(String alias, String firstName, String lastName, String address, String city, String zip, String phone, String country) {
+        userShipmentNewAddressFormPage = new UserShipmentAddressFormPage(driver);
         userShipmentNewAddressFormPage.setAlias(alias);
         userShipmentNewAddressFormPage.setFirstName(firstName);
         userShipmentNewAddressFormPage.setLastName(lastName);
@@ -48,15 +52,33 @@ public class CreateNewAddressSteps {
         userShipmentNewAddressFormPage.setCity(city);
         userShipmentNewAddressFormPage.setZip(zip);
         userShipmentNewAddressFormPage.setPhone(phone);
-        String listOfInputtedData =  alias + "\n" + firstName +" " + lastName + "\n" +address+ "\n" +city+ "\n" +zip+ "\n" +phone;
+        userShipmentNewAddressFormPage.setCountry(country);
+        listOfInputtedData = new StringBuilder().append(alias)
+                                                .append("\n")
+                                                .append(firstName)
+                                                .append(" ")
+                                                .append(lastName)
+                                                .append("\n")
+                                                .append(address)
+                                                .append("\n")
+                                                .append(city)
+                                                .append("\n")
+                                                .append(zip)
+                                                .append("\n")
+                                                .append(phone)
+                                                .append("\n")
+                                                .append(country)
+                                                .toString();
     }
 
     @And("^User saves the informations$")
     public void userSavesTheInformations() {
-
+        userShipmentNewAddressFormPage.clickSaveButton();
     }
 
-    @Then("^User will have new address tile create with correct data$")
-    public void userWillHaveNewAddressTileCreate() {
+    @Then("^User will have new address tile create with correct (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*), data$")
+    public void userWillHaveNewAddressTileCreate(String alias, String firstName, String lastName, String address, String city, String zip, String phone, String country) {
+        //userShipmentAddressesPage.checkSavedAddress(listOfInputtedData);
+        userShipmentAddressesPage.checkSavedAddressByOneItem(alias, firstName, lastName, address, city, zip, phone, country);
     }
 }
